@@ -7,6 +7,15 @@ const MongoClient = require('mongodb').MongoClient;
 const http = require('http').createServer(app);
 const jwt = require("jsonwebtoken");
 
+const { Server } = require("socket.io");
+const io = require('socket.io')(http, {
+    cors: {
+        origin: ["http://localhost:3000/"],
+        methods:["GET","POST"],
+    }
+});
+
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({
     origin: true,  
@@ -54,3 +63,18 @@ app.post('/login', function(req, res){
         }
     });
 });
+
+app.get('/chatList', function(req, res){
+    db.collection('chat').find().toArray()
+    .then(result => {
+        res.send(result);
+    })
+});
+
+io.on('connection',(socket) => {
+    console.log('유저 접속완료')
+    
+    socket.on('user-send', function(data){
+        console.log(data)
+    });
+})

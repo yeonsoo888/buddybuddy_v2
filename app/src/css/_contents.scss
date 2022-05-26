@@ -1,0 +1,14 @@
+.chatRomm__list {
+    display: flex; gap: 1rem; flex-direction: column;
+    border: 1px solid #999; padding: 1rem; border-radius: 1rem;
+    width: 100%;
+    li {
+        border: 1px solid #ddd;
+        a {
+            display: flex; justify-content: space-between; width: 100%; padding: 1rem;
+            font-size: 1.6rem; font-weight: 500; transition: .3s ease;
+            
+            &:hover {background: #eaeaea;}
+        }
+    }
+}

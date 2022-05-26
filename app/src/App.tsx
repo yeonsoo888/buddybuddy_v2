@@ -10,6 +10,7 @@ import Header from './components/header';
 import Login from './components/login';
 
 import './css/style.scss'
+import ChatRooms from './components/chatRooms';
 
 
 export default function App():JSX.Element {
@@ -46,7 +47,10 @@ export default function App():JSX.Element {
         isLogin 
         ? 
         (
-          <Header authLogout={authLogout} />
+          <div className='contents'>
+            <Header authLogout={authLogout} />
+            <ChatRooms />
+          </div>
         )
         :
         <Login setIsLogin={setIsLogin} />
