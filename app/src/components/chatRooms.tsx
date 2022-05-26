@@ -3,18 +3,20 @@ import { Link } from "react-router-dom";
 import { Route, Switch } from "react-router";
 import ChatView from "./chatView";
 import { Chatserv } from "../service/chat";
-import io from 'socket.io-client';
 
-export default function ChatRooms():JSX.Element {
+const ChatRooms = ():JSX.Element => {
     const chatRoom = new Chatserv();
     const [chatRommList,setChatRommList] = useState([]);
-    const socket = io();
 
     useEffect( () => {
         chatRoom.chatServ('get','/chatList')
         .then(response => {
             setChatRommList(response.data);
         });
+        
+        return () => {
+            console.log("끝1");
+        }
 
     },[])
 
@@ -44,3 +46,5 @@ export default function ChatRooms():JSX.Element {
         </>
     )
 }
+
+export default ChatRooms

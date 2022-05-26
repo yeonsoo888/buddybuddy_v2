@@ -13,7 +13,7 @@ import './css/style.scss'
 import ChatRooms from './components/chatRooms';
 
 
-export default function App():JSX.Element {
+const App = ():JSX.Element => {
   const [isLogin,setIsLogin]:any[] = useState(false);
   const history = useHistory()
   const dispatch:Dispatch = useDispatch()
@@ -60,3 +60,4 @@ export default function App():JSX.Element {
   );
 }
 
+export default App;

@@ -1,7 +1,9 @@
 import { combineReducers } from "redux";
 
 interface MemberState {
-    member: {}
+    member: {
+        id?: string
+    }
 }
 interface MemberAction {
     type:string,
