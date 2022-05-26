@@ -73,23 +73,25 @@ app.get('/chatList', function(req, res){
 
 io.on('connection',(socket) => {
     console.log('유저 접속완료2')
-    // let roomNum;
+    
+    let roomNum;
     socket.on('user-send', function(data){
         console.log(data)
     });
     
     socket.on('join', function(data){
-        console.log(data);
         socket.join(data);
-        // roomNum = String(data);
-        
-    });
-    // socket.on(`${roomNum}_send`, function(data){
-    socket.on(`test1_send`, function(data){
-        console.log(data);
-        io.to("test1").emit("broadcast",{
-            id: data.id,
-            message: data.message
+        roomNum = String(data);
+        console.log(roomNum);
+        socket.on(`${roomNum}_send`, function(data){
+            io.to(roomNum).emit("broadcast",{
+                id: data.id,
+                message: data.message
+            });
         });
     });
+    
+
+
+
 })

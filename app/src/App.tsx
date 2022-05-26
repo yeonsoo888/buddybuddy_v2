@@ -32,6 +32,8 @@ const App = ():JSX.Element => {
     } else {
       setIsLogin(false);
     }
+
+    
   },[])
 
   const authLogout = ():void => {

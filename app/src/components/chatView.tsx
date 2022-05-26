@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router'
+import { useHistory, useParams } from 'react-router';
 import { RootState } from '../redux/store';
 import io from 'socket.io-client';
 const socket = io();
@@ -18,14 +18,13 @@ const ChatView = () => {
             message: null,
         }
     ])
-    // const currentRommId = params.number.substring(1);
+    const currentRommId = params.number.substring(1);
     
     useEffect(() => {
-        // socket.emit('join',currentRommId);
-        socket.emit('join','test1');
-        console.log("시작2");
+        socket.connect();
+        socket.emit('join',currentRommId);
         return () => {
-            console.log("끝2");
+            socket.disconnect();
         }
     },[]);
 
@@ -39,12 +38,10 @@ const ChatView = () => {
             id: member.id,
             message: elTxtArea.current!.value
         }
-        socket.emit(`test1_send`,data);
-        // socket.emit(`${currentRommId}_send`,data);
+        socket.emit(`${currentRommId}_send`,data);
     }
     
     socket.on('broadcast',(data) => {
-        console.log('몇번됐냐??');
         const getNewChatList = [...chatList,{id: data.id,message:data.message}];
         setChatList(getNewChatList);
     })
