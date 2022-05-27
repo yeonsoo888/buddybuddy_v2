@@ -8,6 +8,7 @@ const http = require('http').createServer(app);
 const jwt = require("jsonwebtoken");
 
 const { Server } = require("socket.io");
+const { Console } = require('console');
 const io = require('socket.io')(http, {
     cors: {
         origin: ["http://localhost:3000/"],
@@ -46,12 +47,15 @@ app.get('/', function (req, res) {
 app.post('/login', function(req, res){
     db.collection('member').findOne({mail: req.body.mail},function(err,result) {
         if(result) {
+            console.log(result);
             const mail = result.mail;
             const userId = result._id;
             const level = result.level;
+            const name = result.name;
             const token = jwt.sign({
                 userId,
                 mail,
+                name,
                 level,
             }, "scretCode", {
                 expiresIn: '1m', // 1분
@@ -82,10 +86,10 @@ io.on('connection',(socket) => {
     socket.on('join', function(data){
         socket.join(data);
         roomNum = String(data);
-        console.log(roomNum);
         socket.on(`${roomNum}_send`, function(data){
             io.to(roomNum).emit("broadcast",{
                 id: data.id,
+                name: data.name,
                 message: data.message
             });
         });

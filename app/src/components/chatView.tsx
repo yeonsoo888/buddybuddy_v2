@@ -12,12 +12,7 @@ const ChatView = () => {
 
     const elTxtArea = useRef<HTMLTextAreaElement>(null);
 
-    const [chatList,setChatList] = useState([
-        {
-            id: null,
-            message: null,
-        }
-    ])
+    const [chatList,setChatList] = useState<any>([])
     const currentRommId = params.number.substring(1);
     
     useEffect(() => {
@@ -30,46 +25,64 @@ const ChatView = () => {
 
     type Data = {
         id: string,
+        name: string,
         message: string
     }
     const sendMessage = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data:Data = {
             id: member.id,
+            name: member.name,
             message: elTxtArea.current!.value
         }
         socket.emit(`${currentRommId}_send`,data);
+        elTxtArea.current!.value = "";
     }
     
     socket.on('broadcast',(data) => {
-        const getNewChatList = [...chatList,{id: data.id,message:data.message}];
+        const getNewChatList = [...chatList,{id: data.id,name: data.name,message:data.message}];
+        getNewChatList.map((item:any) => {
+            if(item.id === member.id) {
+                item.class = "right"
+            }else {
+                item.class = "left"
+            }
+        })
         setChatList(getNewChatList);
     })
-    
     
 
     return (
         <>
-            <div className=''>
-                <ul>
+            <div className='chatView'>
+                <ul className='chatList'>
                     {
-                        chatList.map((item,i) => {
-                            return (
-                                <li key={i}>
-                                    {item.message}
-                                </li>
-                            )
+                        chatList.map((item:any,i:number) => {
+                            if(chatList !== null) {
+                                return (
+                                    <li key={i} className={item.class}>
+                                        <div className='messageInner'>
+                                            <strong>{item.name}</strong>
+                                            <p>{item.message}</p>
+                                        </div>
+                                    </li>
+                                )
+                            }
                         })
                     }
                 </ul>
                 <form onSubmit={(e) => {
                     sendMessage(e);
                 }}>
-                    <textarea name="" ref={elTxtArea}></textarea>
-                    <button>메세지 보내기</button>
+                    <div className='form__inner'>
+                        <textarea name="" ref={elTxtArea}></textarea>
+                        <button>SEND</button>
+                    </div>
                 </form>
             </div>
-            <button onClick={() => {history.push("/")}}>방 목록으로</button>
+            <div className="btnListWrap">
+                <button className='btnList' onClick={() => {history.push("/")}}>방 목록으로</button>
+            </div>
         </>
     )
 }

@@ -46,15 +46,15 @@ export default function Login(props:appProps):JSX.Element {
             cookies.set("user",token,{
                 expires: after1m,
             });
-            let userInfo:{userId:String,mail:String,level:String} = jwt_decode(token);
+            let userInfo:{userId:String,mail:String,name:string,level:String} = jwt_decode(token);
             dispatch({type: "loginMember",payload: {
                 id: userInfo.userId,
                 mail:userInfo.mail,
+                name: userInfo.name,
                 level: userInfo.level,
             }});
             props.setIsLogin(true);
             setCorrectId(true);
-            console.log(res);
         })
         .catch((err:any) => {
             setCorrectId(false);

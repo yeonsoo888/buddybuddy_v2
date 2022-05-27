@@ -22,18 +22,17 @@ const App = ():JSX.Element => {
   useEffect(() => {
     const userCookies:any = cookies.get("user")
     if(userCookies !== undefined) {
-      let userInfo:{userId:String,mail:String,level:String} = jwt_decode(userCookies);
+      let userInfo:{userId:String,name:String,mail:String,level:String} = jwt_decode(userCookies);
       dispatch({type: "loginMember",payload: {
           id: userInfo.userId,
           mail:userInfo.mail,
+          name: userInfo.name,
           level: userInfo.level,
       }});
       setIsLogin(true);
     } else {
       setIsLogin(false);
     }
-
-    
   },[])
 
   const authLogout = ():void => {
