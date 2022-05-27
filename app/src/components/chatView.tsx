@@ -15,19 +15,29 @@ const ChatView = () => {
     const [chatList,setChatList] = useState<any>([])
     const currentRommId = params.number.substring(1);
     
-    useEffect(() => {
-        socket.connect();
-        socket.emit('join',currentRommId);
-        return () => {
-            socket.disconnect();
-        }
-    },[]);
 
     type Data = {
         id: string,
         name: string,
         message: string
     }
+
+    useEffect(() => {
+        socket.connect();
+        socket.emit('join',currentRommId);
+        const joinData:Data = {
+            id: member.id,
+            name: member.name,
+            message: `${member.name}님이 입장하셨습니다.`
+        }
+        socket.emit(`${currentRommId}_join`,joinData);
+
+        return () => {
+            socket.disconnect();
+        }
+    },[]);
+
+
     const sendMessage = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data:Data = {

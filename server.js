@@ -47,7 +47,6 @@ app.get('/', function (req, res) {
 app.post('/login', function(req, res){
     db.collection('member').findOne({mail: req.body.mail},function(err,result) {
         if(result) {
-            console.log(result);
             const mail = result.mail;
             const userId = result._id;
             const level = result.level;
@@ -86,6 +85,14 @@ io.on('connection',(socket) => {
     socket.on('join', function(data){
         socket.join(data);
         roomNum = String(data);
+        socket.on(`${roomNum}_join`, function(data){
+            console.log(data);
+            io.to(roomNum).emit("broadcast",{
+                id: data.id,
+                name: data.name,
+                message: data.message
+            });
+        });
         socket.on(`${roomNum}_send`, function(data){
             io.to(roomNum).emit("broadcast",{
                 id: data.id,

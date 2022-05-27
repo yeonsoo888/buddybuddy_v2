@@ -6,12 +6,12 @@ import { Dispatch } from 'redux'
 import jwt_decode from "jwt-decode";
 
 
+
 import Header from './components/header';
 import Login from './components/login';
 
 import './css/style.scss'
 import ChatRooms from './components/chatRooms';
-
 
 const App = ():JSX.Element => {
   const [isLogin,setIsLogin]:any[] = useState(false);
@@ -33,6 +33,7 @@ const App = ():JSX.Element => {
     } else {
       setIsLogin(false);
     }
+
   },[])
 
   const authLogout = ():void => {

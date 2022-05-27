@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router";
 import ChatView from "./chatView";
 import { Chatserv } from "../service/chat";
 
+
 const ChatRooms = ():JSX.Element => {
     const chatRoom = new Chatserv();
     const [chatRommList,setChatRommList] = useState([]);
@@ -17,6 +18,7 @@ const ChatRooms = ():JSX.Element => {
         return () => {
             console.log("끝1");
         }
+        
 
     },[])
 
