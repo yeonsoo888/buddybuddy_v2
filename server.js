@@ -78,15 +78,10 @@ io.on('connection',(socket) => {
     console.log('유저 접속완료2')
     
     let roomNum;
-    socket.on('user-send', function(data){
-        console.log(data)
-    });
-    
     socket.on('join', function(data){
         socket.join(data);
         roomNum = String(data);
         socket.on(`${roomNum}_join`, function(data){
-            console.log(data);
             io.to(roomNum).emit("broadcast",{
                 id: data.id,
                 name: data.name,
