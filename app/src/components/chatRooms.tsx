@@ -14,12 +14,6 @@ const ChatRooms = ():JSX.Element => {
         .then(response => {
             setChatRommList(response.data);
         });
-        
-        return () => {
-            console.log("끝1");
-        }
-        
-
     },[])
 
     return (
@@ -33,7 +27,6 @@ const ChatRooms = ():JSX.Element => {
                                     <li key={item._id}>
                                         <Link to={`/room/:${item.owner}`}>
                                             <strong>{item.title}</strong>
-                                            <span>4인</span>
                                         </Link>
                                     </li>
                                 )
